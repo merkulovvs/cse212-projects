@@ -6,13 +6,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: 
+    // Scenario: Test if the item with the highest priority 
     // Expected Result: 
     // Defect(s) Found: 
     public void TestPriorityQueue_1()
     {
         var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        priorityQueue.Enqueue("bob", 3);
+        priorityQueue.Enqueue("jim", 1);
+        priorityQueue.Enqueue("sue", 10);
+
+        var removed = priorityQueue.Dequeue;
+        
+        Console.WriteLine(removed);
+
+        //Assert.Fail("Implement the test case and then remove this.");
     }
 
     [TestMethod]
