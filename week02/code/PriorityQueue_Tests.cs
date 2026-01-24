@@ -16,9 +16,10 @@ public class PriorityQueueTests
         priorityQueue.Enqueue("jim", 1);
         priorityQueue.Enqueue("sue", 10);
 
-        var removed = priorityQueue.Dequeue;
+        var result = priorityQueue.Dequeue();
+        Assert.AreEqual("sue", result);
         
-        Console.WriteLine(removed);
+      
 
         //Assert.Fail("Implement the test case and then remove this.");
     }
