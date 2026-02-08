@@ -16,14 +16,15 @@ public static class Recursion
     public static int SumSquaresRecursive(int n)
     {
         // TODO Start Problem 1
+        // base case
         if (n<=0)
         {
             return 0;
         }
         
         else
-        {
-            return (n*n + SumSquaresRecursive(n-1));
+        {   //smaller problem n to the power of two plus the n-1 to the pwer of two
+            return n*n + SumSquaresRecursive(n-1);
         }
 
     }
@@ -53,11 +54,15 @@ public static class Recursion
         if (word.Length == size)
         {
             results.Add(word);
+            return; // Stop
         }
         
+        // Add each available letter
         for (var i = 0; i < letters.Length; i++)
         {
+            // Remove the letter at index i so it is not used in the next function call
             var lettersLeft = letters.Remove(i, 1);
+            // Add the letter to the 'word' string and call the function again
             PermutationsChoose(results, lettersLeft, size, word + letters[i]);
         }
 
@@ -118,9 +123,21 @@ public static class Recursion
             return 4;
 
         // TODO Start Problem 3
+        // If this is the first time calling the function, then
+        // we need to create the dictionary.
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+
+
+        // Check if we have solved this step before
+        if (remember.ContainsKey(s))
+            return remember[s];
 
         // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+       
+        // Remember result before returning
+        remember[s] = ways;
         return ways;
     }
 
@@ -140,6 +157,28 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        // Find the first wildcard
+        int index = pattern.IndexOf('*');
+
+        // If no wildcards found, return the results
+        if (index == -1)
+        {
+            results.Add(pattern);
+            return;
+        }
+        
+        // Replace the '*' at 'indext'
+        // Split the pattern into two parts. One before the '*'
+        // and one after the '*'. Replace the '*' with '0' or '1'
+        string beforeWildcard = pattern[..index];
+        string afterWildcard = pattern[(index + 1)..];
+
+        //Replace '*' with '0'
+        WildcardBinary(beforeWildcard + '0' + afterWildcard, results);
+
+        // Replace '*' with '1'
+        WildcardBinary(beforeWildcard + '1' + afterWildcard, results);
+
     }
 
     /// <summary>
@@ -155,10 +194,32 @@ public static class Recursion
         }
         
         // currPath.Add((1,2)); // Use this syntax to add to the current path
-
+        currPath.Add((x, y));
         // TODO Start Problem 5
-        // ADD CODE HERE
+        // Check if we reached the end of the maze
+        if (maze.IsEnd(x, y))
+        {
+            // Add path to the results array keeping track of complete maze solutions
+            results.Add(currPath.AsString());
+        }
+        else
+        {
+            // Possible movements
+            var moves = new (int nextX, int nextY)[] {(x, y-1), (x, y+1), (x-1, y), (x+1, y)};
 
+            foreach (var move in moves)
+            {
+                // Check if moving to the next square is within boundaries, not a wall, and not visited
+                if (maze.IsValidMove(currPath, move.nextX, move.nextY))
+                {
+                    // Check the next square
+                    SolveMaze(results, maze, move.nextX, move.nextY, currPath);
+                }
+            }
+
+        }
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Remove the current square from the path before returning to the previous call
+        currPath.RemoveAt(currPath.Count - 1);
     }
 }
