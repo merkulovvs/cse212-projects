@@ -18,18 +18,19 @@ public class Node
         {
             return; 
         }
+        // If value is less that the data in the current node
         else if (value < Data)
         {
-            if (Left is null)
+            if (Left is null) // If there is no node to the left - create a new node and isert value
                 Left = new Node(value);
-            else
+            else // If node to the left exists - insert value
                 Left.Insert(value);
         }
-        else // value > Data
+        else // If value is greater than the data in the current node
         {
-            if (Right is null)
+            if (Right is null) // If there is no node to the right - create a new node and isert value
                 Right = new Node(value);
-            else
+            else // If node to the right exists - insert value
                 Right.Insert(value);
         }
     }
