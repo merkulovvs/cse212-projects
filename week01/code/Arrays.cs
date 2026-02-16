@@ -1,3 +1,5 @@
+using System.Runtime.Serialization;
+
 public static class Arrays
 {
     /// <summary>
@@ -12,8 +14,38 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+        
+        // Implementation 1
+        // Set the currentNum variable to number.
+        double currentNum = number;
+        // Create a fixed array size length
+        var result = new double[length];
 
-        return []; // replace this return statement with your own
+
+        for (int i = 0; i < length; i++)
+        {
+            if (i == 0) // At the index 0 insert the number
+                result[i] = number;
+            else // Starting from index 1
+                currentNum += number; // Incerase the currentNum by number
+                result[i] = currentNum; // Insert currentNum to the result array
+
+        }
+
+        return result; // replace this return statement with your own
+
+        // Implementation 2 (improved)
+        //var result = new double[length]; // Create a fixed array size length
+        //for (int i = 0; i < length; i++)
+        //{
+        //     result[i] = number*(i + 1); // To get rid of if...else statement we multiply the number at index 0 by (0 + 1).
+    
+        //}
+
+        //return result;
+
+
+
     }
 
     /// <summary>
@@ -29,5 +61,21 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+        
+        // 1. Create a slicedList that will hold the sliced portion of data list.
+        // 2. Slice the portion of data list determined by the amount value.
+        // 3. Remove the sliced portion from the data list.
+        // 4. Insert the sliced portion from the slicedList into the data list.
+
+        // Slicing the portion of data list determined by the amount value.
+        // Adding the sliced portion to the slicedList list.
+        List<int> slicedList = data.GetRange(data.Count - amount, amount);
+        
+        // Removing the sliced portion from the data list.
+        data.RemoveRange(data.Count - amount, amount);
+        // Inserting the sliced portion of the list from the right to the front of the
+        // data list at index 0.
+        data.InsertRange(0, slicedList);
+        
     }
 }
